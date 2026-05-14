@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
-function SearchBar({ placeholder }) {
+function SearchBar({ placeholder }: { placeholder: string }) {
   return (
     <Paper
       variant="outlined"

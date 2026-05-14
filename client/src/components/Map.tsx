@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-function Map({ label }) {
+function Map({ label }: { label: any }) { // define type of the entire prob object
   return (
     <Box sx={{ flex: 1, bgcolor: "#e9ecf0", position: "relative", overflow: "hidden" }}>
       <Box

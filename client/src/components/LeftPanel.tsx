@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
+import type { ReactNode } from "react";
 
-function LeftPanel({ title, searchPlaceholder, children }) {
+function LeftPanel({ title, searchPlaceholder, children }: { title: string, searchPlaceholder: string, children: ReactNode}) {
   return (
     <Box
       sx={{
