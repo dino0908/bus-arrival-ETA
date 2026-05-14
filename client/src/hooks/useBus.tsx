@@ -4,7 +4,7 @@ import axios from "axios"
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const fetchBusData = async (val: string) => {
-    const data = await axios.get(`${API_BASE_URL}/api/getBusData`)
+    const data = await axios.get(`${API_BASE_URL}/api/bus/${val}`)
     return data
 }
 
