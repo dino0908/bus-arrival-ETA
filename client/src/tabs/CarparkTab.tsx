@@ -4,9 +4,13 @@ import Map from "../components/Map";
 
 function CarparkTab() {
 
+  const handleSearch = (val: string) => {
+    // val is carpark / address name
+  }
+
   return (
     <Box sx={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
-      <LeftPanel title="Carparks" searchPlaceholder="Search carpark name or ID…">
+      <LeftPanel title="Carparks" searchPlaceholder="Search carpark name or ID…" onSearch={(val) => handleSearch(val)}>
         <> </> 
         {/* map carpark data here  */}
       </LeftPanel>

@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import type { ReactNode } from "react";
 
-function LeftPanel({ title, searchPlaceholder, children }: { title: string, searchPlaceholder: string, children: ReactNode}) {
+function LeftPanel({ title, searchPlaceholder, children, onSearch }: { title: string, searchPlaceholder: string, children: ReactNode, onSearch: (value: string) => void}) {
   return (
     <Box
       sx={{
@@ -20,7 +20,7 @@ function LeftPanel({ title, searchPlaceholder, children }: { title: string, sear
         >
           {title}
         </Typography>
-        <SearchBar placeholder={searchPlaceholder} />
+        <SearchBar placeholder={searchPlaceholder} onSearch={onSearch}/>
       </Box>
       <Box sx={{ overflowY: "auto", flex: 1 }}>{children}</Box>
     </Box>
