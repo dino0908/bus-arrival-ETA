@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 
 function BusTab() {
   const [busStopNumber, setBusStopNumber] = useState("")
-    
   const { data, isLoading, error } = useBus(busStopNumber)
 
   const handleSearch = (val: string) => {
