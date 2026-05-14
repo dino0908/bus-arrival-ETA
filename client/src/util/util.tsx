@@ -11,3 +11,9 @@ export function availColor(pct: number) {
   if (pct > 10) return "warning";
   return "error";
 }
+
+export function etaMins(iso: string) {
+  return iso
+    ? Math.max(0, Math.round((new Date(iso).getTime() - Date.now()) / 60000))
+    : null;
+}
