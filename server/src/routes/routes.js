@@ -3,6 +3,6 @@ import { getBusData } from '../controller/busController.js';
 
 const router = express.Router();
 
-router.post('/bus/:id', getBusData)
+router.get('/bus/:id', getBusData)
 
 export default router;
