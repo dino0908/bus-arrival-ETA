@@ -9,25 +9,8 @@ import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import TrafficTab from "./tabs/TrafficTab";
-import LeftPanel from "./components/LeftPanel";
 import CarparkTab from "./tabs/CarparkTab";
-import Map from "./components/Map";
-
-
-function BusTab() {
-  return (
-    <Box sx={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
-      <LeftPanel title="Bus stops" searchPlaceholder="Search stop number or name…">
-        <> {/* map bus service information */} </>
-      </LeftPanel>
-
-      {/* Right: map */}
-      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
-        <Map label="Bus stops map" />
-      </Box>
-    </Box>
-  );
-}
+import BusTab from "./tabs/BusTab";
 
 const TABS = [
   { value: "bus",     label: "Bus ETA",  icon: <DirectionsBusIcon fontSize="small" /> },
