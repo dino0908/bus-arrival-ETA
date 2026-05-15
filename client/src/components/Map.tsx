@@ -16,6 +16,17 @@ import {
 } from "../types/BusTypes";
 import busStopsData from "../data/busStops.json";
 
+const BUS_LOAD_MAPPING: Record<string, string> = {
+  SEA: "Seats Available",
+  SDA: "Standing Available",
+  LTD: "Limited Standing",
+};
+
+const BUS_TYPE_MAPPING: Record<string, string> = {
+  DD: "Double Decker",
+  SD: "Single Decker"
+}
+
 const BusStopIcon = L.divIcon({
   html: `<span style="font-size: 28px; line-height: 1;">🚏</span>`,
   className: "",
@@ -127,7 +138,7 @@ const Map = ({
                       {matchingStop?.Description} ({busStopNumber})
                     </strong>{" "}
                     <br />
-                    Waiting here for Bus {selectedService.ServiceNo}
+                    Wait here for Bus {selectedService.ServiceNo}
                   </Popup>
                 </Marker>
               </>
@@ -138,8 +149,8 @@ const Map = ({
               <Marker position={nextBusPos} icon={BusIcon}>
                 <Popup>
                   <strong>Bus {selectedService.ServiceNo} (Next)</strong> <br />
-                  Load: {selectedService.NextBus.Load || "Unknown"} <br />
-                  Type: {selectedService.NextBus.Type}
+                  {BUS_LOAD_MAPPING[selectedService.NextBus.Load] || "Unknown"} <br />
+                  {BUS_TYPE_MAPPING[selectedService.NextBus.Type]}
                 </Popup>
               </Marker>
             )}
@@ -148,10 +159,10 @@ const Map = ({
             {nextBus2Pos && (
               <Marker position={nextBus2Pos} icon={BusIcon}>
                 <Popup>
-                  <strong>Bus {selectedService.ServiceNo} (Subsequent)</strong>{" "}
+                  <strong>Bus {selectedService.ServiceNo} (After)</strong>{" "}
                   <br />
-                  Load: {selectedService.NextBus2.Load || "Unknown"} <br />
-                  Type: {selectedService.NextBus2.Type}
+                  {BUS_LOAD_MAPPING[selectedService.NextBus2.Load] || "Unknown"} <br />
+                  {BUS_TYPE_MAPPING[selectedService.NextBus2.Type]}
                 </Popup>
               </Marker>
             )}

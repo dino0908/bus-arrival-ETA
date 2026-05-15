@@ -31,14 +31,6 @@ export default function App() {
         sx={{ borderBottom: "1px solid", borderColor: "divider", bgcolor: "background.paper" }}
       >
         <Toolbar variant="dense" sx={{ minHeight: 50, px: 2.5, gap: 0 }}>
-          {/* Brand */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mr: 3.5 }}>
-            <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "primary.main" }} />
-            <Typography variant="subtitle1">
-              SG Live
-            </Typography>
-          </Box>
-
           {/* Tabs */}
           <Tabs
             value={tab}
