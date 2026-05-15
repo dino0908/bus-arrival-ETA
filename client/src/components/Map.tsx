@@ -18,11 +18,11 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // Helper component to focus close up on the specific searched stop
-const ChangeMapView = ({ center, searchCount }: { center: LatLngExpression; searchCount: number }) => {
+const ChangeMapView = ({ center, searchCount, zoomLevel }: { center: LatLngExpression; searchCount: number, zoomLevel: number }) => {
   const map = useMap();
   useEffect(() => {
-    map.setView(center, 16);
-  }, [center, map, searchCount]);
+    map.setView(center, zoomLevel);
+  }, [center, map, searchCount, zoomLevel]);
   return null;
 };
 
@@ -67,7 +67,7 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
 
         {renderType === "SINGLE_STOP" && markerPosition && (
           <>
-            <ChangeMapView center={markerPosition} searchCount={searchCount} />
+            <ChangeMapView center={markerPosition} searchCount={searchCount} zoomLevel={16}/>
             <Marker position={markerPosition}>
               <Popup>
                 <strong>{matchingStop?.Description}</strong> <br />
@@ -82,7 +82,7 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
           <>
             {markerPosition && (
               <>
-                <ChangeMapView center={markerPosition} searchCount={searchCount} />
+                <ChangeMapView center={markerPosition} searchCount={searchCount} zoomLevel={13}/>
                 <Marker position={markerPosition}>
                   <Popup>
                     <strong>{matchingStop?.Description} ({busStopNumber})</strong> <br />
