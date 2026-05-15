@@ -18,20 +18,21 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // Helper component to focus close up on the specific searched stop
-const ChangeMapView = ({ center }: { center: LatLngExpression }) => {
+const ChangeMapView = ({ center, searchCount }: { center: LatLngExpression, searchCount: number }) => {
   const map = useMap();
   useEffect(() => {
     map.setView(center, 16);
-  }, [center, map]);
+  }, [center, map, searchCount]);
   return null;
 };
 
 interface MapProps {
   renderType: RenderType;
   busStopNumber?: string;
+  searchCount: number // used to trigger re-centering when same bus stop number is searched
 }
 
-const Map = ({ renderType, busStopNumber }: MapProps) => {
+const Map = ({ renderType, busStopNumber, searchCount }: MapProps) => {
   const defaultSingaporePosition: LatLngExpression = [1.3521, 103.8198];
 
   const matchingStop = busStopsData.value.find(
@@ -54,7 +55,7 @@ const Map = ({ renderType, busStopNumber }: MapProps) => {
 
         {renderType === "SINGLE_STOP" && markerPosition && (
           <>
-            <ChangeMapView center={markerPosition} />
+            <ChangeMapView center={markerPosition} searchCount={searchCount}/>
             <Marker position={markerPosition}>
               <Popup>
                 <strong>{matchingStop?.Description}</strong> <br />

@@ -13,10 +13,12 @@ function BusTab() {
   const { data, isLoading, error } = useBus(busStopNumber);
   const [services, setServices] = useState<Service[] | null>(null);
   const [renderType, setRenderType] = useState<RenderType>("SINGLE_STOP")
+  const [searchCount, setSearchCount] = useState(0)
 
   const handleSearch = (val: string) => {
     setBusStopNumber(val);
     setRenderType("SINGLE_STOP")
+    setSearchCount((prev) => prev+1)
   };
 
   useEffect(() => {
@@ -91,7 +93,7 @@ function BusTab() {
           overflow: "hidden",
         }}
       >
-        <Map renderType={renderType} busStopNumber={busStopNumber}/>
+        <Map renderType={renderType} busStopNumber={busStopNumber} searchCount={searchCount}/>
       </Box>
     </Box>
   );
