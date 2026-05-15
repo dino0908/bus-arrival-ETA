@@ -12,6 +12,7 @@ export interface BusServiceCardProps {
   ServiceNo: string;
   NextBus: NextBusType;
   NextBus2: NextBusType;
+  onViewRoute: () => void
 }
 
 export interface Service {

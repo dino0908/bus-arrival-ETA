@@ -10,6 +10,7 @@ export default function BusServiceCard({
   ServiceNo,
   NextBus,
   NextBus2,
+  onViewRoute,
 }: BusServiceCardProps) {
   const deck = DECK[NextBus.Type];
   const wab = NextBus.Feature === "WAB" || NextBus2.Feature === "WAB";
@@ -94,7 +95,7 @@ export default function BusServiceCard({
           <Tooltip title="View on Map" arrow>
             <IconButton
               size="small"
-              onClick={() => console.log("Viewing service on map")}
+              onClick={onViewRoute}
               sx={{
                 color: "primary.main",
                 borderRadius: 1,

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { type LatLngExpression } from "leaflet";
-import { type RenderType } from "../types/BusTypes";
+import { type NextBusType, type RenderType, type Service } from "../types/BusTypes";
 import L from "leaflet";
 import busStopsData from "../data/busStops.json";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -18,7 +18,7 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // Helper component to focus close up on the specific searched stop
-const ChangeMapView = ({ center, searchCount }: { center: LatLngExpression, searchCount: number }) => {
+const ChangeMapView = ({ center, searchCount }: { center: LatLngExpression; searchCount: number }) => {
   const map = useMap();
   useEffect(() => {
     map.setView(center, 16);
@@ -29,10 +29,11 @@ const ChangeMapView = ({ center, searchCount }: { center: LatLngExpression, sear
 interface MapProps {
   renderType: RenderType;
   busStopNumber?: string;
-  searchCount: number // used to trigger re-centering when same bus stop number is searched
+  searchCount: number; // used to trigger re-centering when same bus stop number is searched
+  selectedService: Service | null;
 }
 
-const Map = ({ renderType, busStopNumber, searchCount }: MapProps) => {
+const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapProps) => {
   const defaultSingaporePosition: LatLngExpression = [1.3521, 103.8198];
 
   const matchingStop = busStopsData.value.find(
@@ -42,6 +43,17 @@ const Map = ({ renderType, busStopNumber, searchCount }: MapProps) => {
   const markerPosition: LatLngExpression | null = matchingStop
     ? [Number(matchingStop.Latitude), Number(matchingStop.Longitude)]
     : null;
+
+  // Helper to safely parse live bus coordinates
+  const getBusCoordinates = (busObj: NextBusType | undefined): LatLngExpression | null => {
+    const lat = Number(busObj?.Latitude);
+    const lng = Number(busObj?.Longitude);
+    if (!lat || !lng || lat === 0 || lng === 0) return null;
+    return [lat, lng];
+  };
+
+  const nextBusPos = getBusCoordinates(selectedService?.NextBus);
+  const nextBus2Pos = getBusCoordinates(selectedService?.NextBus2);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -55,7 +67,7 @@ const Map = ({ renderType, busStopNumber, searchCount }: MapProps) => {
 
         {renderType === "SINGLE_STOP" && markerPosition && (
           <>
-            <ChangeMapView center={markerPosition} searchCount={searchCount}/>
+            <ChangeMapView center={markerPosition} searchCount={searchCount} />
             <Marker position={markerPosition}>
               <Popup>
                 <strong>{matchingStop?.Description}</strong> <br />
@@ -63,6 +75,44 @@ const Map = ({ renderType, busStopNumber, searchCount }: MapProps) => {
                 Road: {matchingStop?.RoadName}
               </Popup>
             </Marker>
+          </>
+        )}
+
+        {renderType === "ROUTE_VIEW" && selectedService && (
+          <>
+            {markerPosition && (
+              <>
+                <ChangeMapView center={markerPosition} searchCount={searchCount} />
+                <Marker position={markerPosition}>
+                  <Popup>
+                    <strong>{matchingStop?.Description} ({busStopNumber})</strong> <br />
+                    Waiting here for Bus {selectedService.ServiceNo}
+                  </Popup>
+                </Marker>
+              </>
+            )}
+
+            {/* Marker for next bus */}
+            {nextBusPos && (
+              <Marker position={nextBusPos}>
+                <Popup>
+                  <strong>Bus {selectedService.ServiceNo} (Next)</strong> <br />
+                  Load: {selectedService.NextBus.Load || "Unknown"} <br />
+                  Type: {selectedService.NextBus.Type}
+                </Popup>
+              </Marker>
+            )}
+
+            {/* Marker for subsequent bus */}
+            {nextBus2Pos && (
+              <Marker position={nextBus2Pos}>
+                <Popup>
+                  <strong>Bus {selectedService.ServiceNo} (Subsequent)</strong> <br />
+                  Load: {selectedService.NextBus2.Load || "Unknown"} <br />
+                  Type: {selectedService.NextBus2.Type}
+                </Popup>
+              </Marker>
+            )}
           </>
         )}
       </MapContainer>

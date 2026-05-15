@@ -14,12 +14,18 @@ function BusTab() {
   const [services, setServices] = useState<Service[] | null>(null);
   const [renderType, setRenderType] = useState<RenderType>("SINGLE_STOP")
   const [searchCount, setSearchCount] = useState(0)
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const handleSearch = (val: string) => {
     setBusStopNumber(val);
     setRenderType("SINGLE_STOP")
     setSearchCount((prev) => prev+1)
   };
+
+  const handleViewRoute = (service: Service) => {
+    setRenderType("ROUTE_VIEW")
+    setSelectedService(service)
+  }
 
   useEffect(() => {
     setServices(data?.data?.Services ?? null);
@@ -79,6 +85,7 @@ function BusTab() {
             ServiceNo={service.ServiceNo}
             NextBus={service.NextBus}
             NextBus2={service.NextBus2}
+            onViewRoute={() => handleViewRoute(service)}
           />
         ))}
       </LeftPanel>
@@ -93,7 +100,7 @@ function BusTab() {
           overflow: "hidden",
         }}
       >
-        <Map renderType={renderType} busStopNumber={busStopNumber} searchCount={searchCount}/>
+        <Map renderType={renderType} busStopNumber={busStopNumber} searchCount={searchCount} selectedService={selectedService}/>
       </Box>
     </Box>
   );
