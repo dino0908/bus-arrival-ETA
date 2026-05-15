@@ -1,7 +1,8 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import { type BusServiceCardProps } from "../types/BusTypes";
 import EtaCell from "./ETACell";
+import PublicIcon from "@mui/icons-material/Public";
 
 const DECK: Partial<Record<string, string>> = { SD: "Single", DD: "Double" };
 
@@ -73,6 +74,36 @@ export default function BusServiceCard({
           }}
         />
         <EtaCell bus={NextBus2} label="After" />
+
+        <Box // divider
+          sx={{
+            width: "1px",
+            bgcolor: "divider",
+            alignSelf: "stretch",
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+            alignSelf: "center",
+          }}
+        >
+          <Tooltip title="View on Map" arrow>
+            <IconButton
+              size="small"
+              onClick={() => console.log("Viewing service on map")}
+              sx={{
+                color: "primary.main",
+                borderRadius: 1,
+              }}
+            >
+              <PublicIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
     </Box>
   );

@@ -13,7 +13,6 @@ function BusTab() {
   const { data, isLoading, error } = useBus(busStopNumber);
   const [services, setServices] = useState<Service[] | null>(null);
   const [renderType, setRenderType] = useState<RenderType>("SINGLE_STOP")
-  const [busStopCoords, setBusStopCoords] = useState(null)
 
   const handleSearch = (val: string) => {
     setBusStopNumber(val);
