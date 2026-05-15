@@ -5,15 +5,19 @@ import LeftPanel from "../components/LeftPanel";
 import BusServiceCard from "../components/BusServiceCard";
 import { useBus } from "../hooks/useBus";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
-import { type Service } from "../types/BusTypes";
+import { type Service, type RenderType } from "../types/BusTypes";
+
 
 function BusTab() {
   const [busStopNumber, setBusStopNumber] = useState("");
   const { data, isLoading, error } = useBus(busStopNumber);
   const [services, setServices] = useState<Service[] | null>(null);
+  const [renderType, setRenderType] = useState<RenderType>("SINGLE_STOP")
+  const [busStopCoords, setBusStopCoords] = useState(null)
 
   const handleSearch = (val: string) => {
     setBusStopNumber(val);
+    setRenderType("SINGLE_STOP")
   };
 
   useEffect(() => {
@@ -88,7 +92,7 @@ function BusTab() {
           overflow: "hidden",
         }}
       >
-        <Map label="Bus stops map" />
+        <Map renderType={renderType} busStopNumber={busStopNumber}/>
       </Box>
     </Box>
   );

@@ -19,3 +19,5 @@ export interface Service {
   NextBus: NextBusType;
   NextBus2: NextBusType;
 }
+
+export type RenderType = "SINGLE_STOP" | "ROUTE_VIEW"
