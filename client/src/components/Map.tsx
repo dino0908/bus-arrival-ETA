@@ -1,21 +1,25 @@
 import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { type LatLngExpression } from "leaflet";
+import L, { type LatLngExpression } from "leaflet";
 import { type NextBusType, type RenderType, type Service } from "../types/BusTypes";
-import L from "leaflet";
 import busStopsData from "../data/busStops.json";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-const DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
+const BusStopIcon = L.divIcon({
+  html: `<span style="font-size: 28px; line-height: 1;">🚏</span>`,
+  className: "", 
+  iconSize: [32, 32],
+  iconAnchor: [16, 28],
+  popupAnchor: [0, -28]
 });
-L.Marker.prototype.options.icon = DefaultIcon;
+
+const BusIcon = L.divIcon({
+  html: `<span style="font-size: 28px; line-height: 1;">🚌</span>`,
+  className: "",
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -16]
+});
 
 // Helper component to focus close up on the specific searched stop
 const ChangeMapView = ({ center, searchCount, zoomLevel }: { center: LatLngExpression; searchCount: number, zoomLevel: number }) => {
@@ -68,7 +72,7 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
         {renderType === "SINGLE_STOP" && markerPosition && (
           <>
             <ChangeMapView center={markerPosition} searchCount={searchCount} zoomLevel={16}/>
-            <Marker position={markerPosition}>
+            <Marker position={markerPosition} icon={BusStopIcon}>
               <Popup>
                 <strong>{matchingStop?.Description}</strong> <br />
                 Bus Stop Code: {busStopNumber} <br />
@@ -82,8 +86,8 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
           <>
             {markerPosition && (
               <>
-                <ChangeMapView center={markerPosition} searchCount={searchCount} zoomLevel={13}/>
-                <Marker position={markerPosition}>
+                <ChangeMapView center={markerPosition} searchCount={searchCount} zoomLevel={14}/>
+                <Marker position={markerPosition} icon={BusStopIcon}>
                   <Popup>
                     <strong>{matchingStop?.Description} ({busStopNumber})</strong> <br />
                     Waiting here for Bus {selectedService.ServiceNo}
@@ -94,7 +98,7 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
 
             {/* Marker for next bus */}
             {nextBusPos && (
-              <Marker position={nextBusPos}>
+              <Marker position={nextBusPos} icon={BusIcon}>
                 <Popup>
                   <strong>Bus {selectedService.ServiceNo} (Next)</strong> <br />
                   Load: {selectedService.NextBus.Load || "Unknown"} <br />
@@ -105,7 +109,7 @@ const Map = ({ renderType, busStopNumber, searchCount, selectedService }: MapPro
 
             {/* Marker for subsequent bus */}
             {nextBus2Pos && (
-              <Marker position={nextBus2Pos}>
+              <Marker position={nextBus2Pos} icon={BusIcon}>
                 <Popup>
                   <strong>Bus {selectedService.ServiceNo} (Subsequent)</strong> <br />
                   Load: {selectedService.NextBus2.Load || "Unknown"} <br />
