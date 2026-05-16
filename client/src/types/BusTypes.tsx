@@ -21,4 +21,12 @@ export interface Service {
   NextBus2: NextBusType;
 }
 
+export interface BusStopType {
+  distance: number
+  BusStopCode: string
+  RoadName: string
+  Description: string
+  Latitude: number
+  Longitude: number
+}
 export type RenderType = "SINGLE_STOP" | "ROUTE_VIEW"
