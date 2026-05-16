@@ -7,7 +7,7 @@ function LeftPanel({ title, searchPlaceholder, children, onSearch }: { title: st
   return (
     <Box
       sx={{
-        width: "35%", minWidth: 0, flexShrink: 0,
+        width: "45%", minWidth: 0, flexShrink: 0,
         borderRight: "1px solid", borderColor: "divider",
         display: "flex", flexDirection: "column", overflow: "hidden",
         bgcolor: "background.paper",
