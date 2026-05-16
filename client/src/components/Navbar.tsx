@@ -32,6 +32,7 @@ function Navbar({
       icon: <TrafficIcon fontSize="small" />,
     },
   ];
+
   return (
     <AppBar
       position="static"
