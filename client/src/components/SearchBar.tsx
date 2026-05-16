@@ -14,6 +14,13 @@ function SearchBar({
   isLoading?: boolean;
 }) {
   const [value, setValue] = useState("");
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == "Enter" && !isLoading) {
+      onSearch(value)
+    }
+  }
+  
   return (
     <Paper
       variant="outlined"
@@ -32,6 +39,7 @@ function SearchBar({
         sx={{ flex: 1, fontSize: 13 }}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <Button
         variant="contained"
