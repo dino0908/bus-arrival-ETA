@@ -4,7 +4,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import TrafficIcon from "@mui/icons-material/Traffic";
