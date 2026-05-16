@@ -1,8 +1,8 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import AccessibleIcon from "@mui/icons-material/Accessible";
+import RouteIcon from "@mui/icons-material/Route";
 import { type BusServiceCardProps } from "../types/BusTypes";
 import EtaCell from "./ETACell";
-import PublicIcon from "@mui/icons-material/Public";
 
 const DECK: Partial<Record<string, string>> = { SD: "Single", DD: "Double" };
 
@@ -18,91 +18,160 @@ export default function BusServiceCard({
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        px: 2,
-        py: 1.25,
+        display: "grid",
+        gridTemplateColumns: "80px 1fr",
+        alignItems: "stretch",
         borderBottom: "1px solid",
         borderColor: "divider",
-        gap: 2,
+        minHeight: 88,
         transition: "background-color 0.12s ease",
         "&:hover": { bgcolor: "action.hover" },
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+      {/* ── Col 1: Service number + meta ── */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          px: 2,
+          py: 1.5,
+          borderRight: "1px solid",
+          borderColor: "divider",
+          gap: 0.5,
+        }}
+      >
         <Typography
           sx={{
-            fontSize: "1.1rem",
+            fontSize: "1.5rem",
             fontWeight: 800,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.03em",
+            lineHeight: 1,
             fontFamily: "'DM Mono', monospace",
           }}
         >
           {ServiceNo}
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
           {deck && (
             <Typography
               sx={{
-                fontSize: "0.58rem",
+                fontSize: "0.6rem",
                 fontWeight: 600,
                 letterSpacing: "0.05em",
                 color: "text.disabled",
                 textTransform: "uppercase",
               }}
             >
-              {deck} decker
+              {deck}
             </Typography>
           )}
           {wab && (
             <Tooltip title="Wheelchair accessible" arrow placement="right">
-              <AccessibleIcon sx={{ fontSize: 11, color: "primary.main" }} />
+              <AccessibleIcon sx={{ fontSize: 16, color: "primary.main" }} />
             </Tooltip>
           )}
         </Box>
       </Box>
 
-      <Box sx={{ flex: 1 }} />
-
-      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.75 }}>
-        <EtaCell bus={NextBus} label="Next" />
+      {/* ── Col 2: ETAs + action ── */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr auto",
+          alignItems: "stretch",
+        }}
+      >
+        {/* Next ETA */}
         <Box
           sx={{
-            width: "1px",
-            bgcolor: "divider",
-            alignSelf: "stretch",
-            my: "2px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            px: 1.5,
+            py: 1.5,
+            gap: 0.4,
           }}
-        />
-        <EtaCell bus={NextBus2} label="After" />
+        >
+          <Typography
+            sx={{
+              fontSize: "0.6rem",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "text.disabled",
+            }}
+          >
+            Next
+          </Typography>
+          <EtaCell bus={NextBus} />
+        </Box>
 
-        <Box // divider
+        {/* After ETA */}
+        <Box
           sx={{
-            width: "1px",
-            bgcolor: "divider",
-            alignSelf: "stretch",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            px: 1.5,
+            py: 1.5,
+            gap: 0.4,
+            borderLeft: "1px solid",
+            borderColor: "divider",
           }}
-        />
+        >
+          <Typography
+            sx={{
+              fontSize: "0.6rem",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "text.disabled",
+            }}
+          >
+            After
+          </Typography>
+          <EtaCell bus={NextBus2} />
+        </Box>
+
+        {/* Map button */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "100%",
-            alignSelf: "center",
+            px: 1.5,
+            borderLeft: "1px solid",
+            borderColor: "divider",
           }}
         >
-          <Tooltip title="View on Map" arrow>
-            <IconButton
-              size="small"
+          <Tooltip title="View route on map" arrow>
+            <Button
               onClick={onViewRoute}
+              size="small"
+              variant="outlined"
+              startIcon={<RouteIcon sx={{ fontSize: "16px !important" }} />}
               sx={{
+                fontSize: "0.65rem",
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                px: 1.25,
+                py: 0.75,
+                minWidth: 0,
+                whiteSpace: "nowrap",
                 color: "primary.main",
-                borderRadius: 1,
+                borderColor: "primary.main",
+                lineHeight: 1.2,
               }}
             >
-              <PublicIcon fontSize="small" />
-            </IconButton>
+              Route
+            </Button>
           </Tooltip>
         </Box>
       </Box>

@@ -4,41 +4,33 @@ import { etaMins } from "../util/util";
 
 const LOAD: Record<string, { label: string; color: string }> = {
   SEA: { label: "Seats avail", color: "#16a34a" },
-  SDA: { label: "Standing", color: "#d97706" },
+  SDA: { label: "Standing",    color: "#d97706" },
   LSD: { label: "Ltd standing", color: "#dc2626" },
 };
 
-function EtaCell({ bus, label }: { bus: NextBusType; label: string }) {
-  const mins = etaMins(bus.EstimatedArrival);   
-  const load = LOAD[bus.Load];
-  const eta = mins === null ? "–" : mins === 0 ? "Arr" : `${mins}`;
+function EtaCell({ bus }: { bus: NextBusType }) {
+  const mins = etaMins(bus.EstimatedArrival);
+  const load = bus.Load ? LOAD[bus.Load] : null;
+  const eta  = mins === null ? "–" : mins === 0 ? "Arr" : `${mins}`;
 
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-end",
-        minWidth: 64,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 0.5,
+        width: "100%",
       }}
     >
-      <Typography
-        sx={{
-          fontSize: "0.58rem",
-          fontWeight: 600,
-          letterSpacing: "0.09em",
-          textTransform: "uppercase",
-          color: "text.disabled",
-          mb: 0.35,
-        }}
-      >
-        {label}
-      </Typography>
-      <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.25 }}>
+      {/* ETA number */}
+      <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.4 }}>
         <Typography
           sx={{
-            fontSize: "1.25rem",
-            fontWeight: 700,
+            fontSize: "2rem",
+            fontWeight: 800,
+            lineHeight: 1,
             fontFamily: "'DM Mono', monospace",
             color:
               mins === 0
@@ -53,23 +45,24 @@ function EtaCell({ bus, label }: { bus: NextBusType; label: string }) {
         {mins !== null && mins > 0 && (
           <Typography
             sx={{
-              fontSize: "0.6rem",
+              fontSize: "0.75rem",
+              fontWeight: 600,
               color: "text.secondary",
-              mb: "1px",
+              mb: "2px",
             }}
           >
             min
           </Typography>
         )}
       </Box>
-      {mins !== null && (
-        <Box
-          sx={{ display: "flex", alignItems: "center", gap: 0.35, mt: 0.25 }}
-        >
+
+      {/* Load indicator */}
+      {mins !== null && load && (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
           <Box
             sx={{
-              width: 5,
-              height: 5,
+              width: 7,
+              height: 7,
               borderRadius: "50%",
               bgcolor: load.color,
               flexShrink: 0,
@@ -77,8 +70,8 @@ function EtaCell({ bus, label }: { bus: NextBusType; label: string }) {
           />
           <Typography
             sx={{
-              fontSize: "0.58rem",
-              fontWeight: 500,
+              fontSize: "0.7rem",
+              fontWeight: 600,
               color: load.color,
               whiteSpace: "nowrap",
             }}
@@ -91,4 +84,4 @@ function EtaCell({ bus, label }: { bus: NextBusType; label: string }) {
   );
 }
 
-export default EtaCell
+export default EtaCell;

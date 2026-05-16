@@ -9,7 +9,7 @@ export const getBusData = async (req, res) => {
         }
 
         const data = await fetchBusArrivalData(busStopCode);
-        res.status(200).json(data);
+        res.status(200).json(data.Services);
         
     } catch (error) {
         console.error("Controller Error:", error);
