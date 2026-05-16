@@ -6,7 +6,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 
 export default function App() {
-const [tab, setTab] = useState("bus");
+  const [tab, setTab] = useState("bus");
 
   return (
     <Box
@@ -17,8 +17,7 @@ const [tab, setTab] = useState("bus");
         bgcolor: "background.default",
       }}
     >
-      <Navbar tab={tab} setTab={setTab}/>
-      {/* ── Tab content ── */}
+      <Navbar tab={tab} setTab={setTab} />
       <Box
         sx={{
           flex: 1,

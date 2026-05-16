@@ -6,9 +6,15 @@ import Toolbar from "@mui/material/Toolbar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Box, Typography } from "@mui/material";
+import LiveIndicator from "./LiveIndicator";
 
-function Navbar( { tab, setTab }: { tab: string, setTab: (value: string) => void }) {
-    
+function Navbar({
+  tab,
+  setTab,
+}: {
+  tab: string;
+  setTab: (value: string) => void;
+}) {
   const TABS = [
     {
       value: "bus",
@@ -49,7 +55,6 @@ function Navbar( { tab, setTab }: { tab: string, setTab: (value: string) => void
           />
           <Typography variant="subtitle1">SG Live</Typography>
         </Box>
-        {/* Tabs */}
         <Tabs
           value={tab}
           onChange={(_, v) => setTab(v)}
@@ -76,6 +81,7 @@ function Navbar( { tab, setTab }: { tab: string, setTab: (value: string) => void
             />
           ))}
         </Tabs>
+        <LiveIndicator />
       </Toolbar>
     </AppBar>
   );
