@@ -100,6 +100,7 @@ function BusTab() {
             {nearbyStops?.map((busStop: BusStopType) => (
               <Box
                 key={busStop.BusStopCode}
+                onClick={() => setBusStopNumber(busStop.BusStopCode)}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -249,22 +250,12 @@ function BusTab() {
       </LeftPanel>
 
       {/* Right: map */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minWidth: 0,
-          overflow: "hidden",
-        }}
-      >
-        <Map
-          renderType={renderType}
-          busStopNumber={busStopNumber}
-          searchCount={searchCount}
-          selectedService={selectedService}
-        />
-      </Box>
+      <Map
+        renderType={renderType}
+        busStopNumber={busStopNumber}
+        searchCount={searchCount}
+        selectedService={selectedService}
+      />
     </Box>
   );
 }
