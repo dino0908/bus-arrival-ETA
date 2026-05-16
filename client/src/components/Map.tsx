@@ -50,7 +50,7 @@ const ChangeMapView = ({
   zoomLevel,
 }: {
   center: LatLngExpression;
-  searchCount: number;
+  searchCount?: number;
   zoomLevel: number;
 }) => {
   const map = useMap();
@@ -61,10 +61,10 @@ const ChangeMapView = ({
 };
 
 interface MapProps {
-  renderType: RenderType;
+  renderType?: RenderType;
   busStopNumber?: string;
-  searchCount: number; // used to trigger re-centering when same bus stop number is searched
-  selectedService: Service | null;
+  searchCount?: number; // used to trigger re-centering when same bus stop number is searched
+  selectedService?: Service | null;
 }
 
 const Map = ({

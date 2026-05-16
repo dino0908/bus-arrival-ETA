@@ -10,7 +10,7 @@ interface LeftPanelProps {
   onSearch: (value: string) => void;
   error?: Error | null;
   isLoading?: boolean;
-  searchQuery: string
+  searchQuery?: string
 }
 function LeftPanel({
   title,

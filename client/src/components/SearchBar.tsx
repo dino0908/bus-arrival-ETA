@@ -11,11 +11,11 @@ function SearchBar({
   placeholder: string;
   onSearch: (value: string) => void;
   isLoading?: boolean;
-  value: string
+  value?: string
 }) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == "Enter" && !isLoading) {
+    if (e.key == "Enter" && !isLoading && value) {
       onSearch(value)
     }
   }

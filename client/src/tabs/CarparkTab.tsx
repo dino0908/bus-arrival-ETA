@@ -6,6 +6,7 @@ function CarparkTab() {
 
   const handleSearch = (val: string) => {
     // val is carpark / address name
+    console.log(val)
   }
 
   return (
@@ -17,7 +18,7 @@ function CarparkTab() {
 
       {/* Right: map */}
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
-        <Map label="Carpark map" />
+        <Map />
       </Box>
     </Box>
   );
