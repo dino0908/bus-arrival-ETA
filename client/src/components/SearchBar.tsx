@@ -1,15 +1,17 @@
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 
 function SearchBar({
   placeholder,
   onSearch,
+  isLoading,
 }: {
   placeholder: string;
   onSearch: (value: string) => void;
+  isLoading?: boolean;
 }) {
   const [value, setValue] = useState("");
   return (
@@ -36,6 +38,7 @@ function SearchBar({
         disableElevation
         onClick={() => onSearch(value)}
         startIcon={<SearchIcon />}
+        disabled={isLoading}
         sx={{
           textTransform: "none",
           borderRadius: "8px",
@@ -43,7 +46,7 @@ function SearchBar({
           px: 3,
         }}
       >
-        Search
+        {isLoading ? <CircularProgress size={20} color="inherit" /> : "Search"}
       </Button>
     </Paper>
   );

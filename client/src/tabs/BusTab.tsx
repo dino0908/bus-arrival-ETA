@@ -59,15 +59,14 @@ function BusTab() {
     setSelectedService(service);
   };
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>{error.message}</h1>;
-
   return (
     <Box sx={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
       <LeftPanel
         title="Bus stops"
         searchPlaceholder="Search stop number or name…"
         onSearch={(val) => handleSearch(val)}
+        error={error}
+        isLoading={isLoading}
       >
         {/* Nearby stops section */}
         {position?.latitude && position?.longitude && (
@@ -248,8 +247,6 @@ function BusTab() {
           />
         ))}
       </LeftPanel>
-
-      {/* Right: map */}
       <Map
         renderType={renderType}
         busStopNumber={busStopNumber}
