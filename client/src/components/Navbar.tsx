@@ -21,16 +21,16 @@ function Navbar({
       label: "Bus ETA",
       icon: <DirectionsBusIcon fontSize="small" />,
     },
-    {
-      value: "carpark",
-      label: "Carpark",
-      icon: <LocalParkingIcon fontSize="small" />,
-    },
-    {
-      value: "traffic",
-      label: "Traffic",
-      icon: <TrafficIcon fontSize="small" />,
-    },
+    // {
+    //   value: "carpark",
+    //   label: "Carpark",
+    //   icon: <LocalParkingIcon fontSize="small" />,
+    // },
+    // {
+    //   value: "traffic",
+    //   label: "Traffic",
+    //   icon: <TrafficIcon fontSize="small" />,
+    // },
   ];
 
   return (

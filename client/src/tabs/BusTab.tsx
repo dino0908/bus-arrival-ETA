@@ -16,7 +16,9 @@ import { getDistanceFromLatLonInKm } from "../util/util";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 
 function BusTab() {
+  const [searchQuery, setSearchQuery] = useState("");
   const [busStopNumber, setBusStopNumber] = useState("");
+  const [searchResults, setSearchResults] = useState<BusStopType[]>([]);
   const { data: services, isLoading, error } = useBus(busStopNumber);
   const [renderType, setRenderType] = useState<RenderType>("SINGLE_STOP");
   const [searchCount, setSearchCount] = useState(0);
@@ -48,8 +50,47 @@ function BusTab() {
     setNearbyStops(closeStops);
   }, [position]);
 
+  // Perform live search for bus stops by name or code
+  const performSearch = (query: string) => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      setSearchResults([]);
+      return;
+    }
+
+    // Search by stop code or description or road name
+    const results = busStopsData.value
+      .filter(
+        (stop) =>
+          stop.BusStopCode.toLowerCase().includes(trimmed) ||
+          stop.Description.toLowerCase().includes(trimmed) ||
+          stop.RoadName.toLowerCase().includes(trimmed)
+      )
+      .slice(0, 8); // Limit to 8 results
+
+    setSearchResults(results);
+  };
+
   const handleSearch = (val: string) => {
-    setBusStopNumber(val);
+    setSearchQuery(val);
+    performSearch(val);
+
+    const trimmed = val.trim();
+
+    const matchedStop = busStopsData.value.find(
+      (stop) => stop.BusStopCode === trimmed
+    );
+
+    if (matchedStop) {
+      setBusStopNumber(matchedStop.BusStopCode);
+      setRenderType("SINGLE_STOP");
+      setSearchCount((prev) => prev + 1);
+    }
+  };
+
+  const handleStopSelect = (stopCode: string) => {
+    setBusStopNumber(stopCode);
+    setSearchQuery(stopCode);
     setRenderType("SINGLE_STOP");
     setSearchCount((prev) => prev + 1);
   };
@@ -67,9 +108,101 @@ function BusTab() {
         onSearch={(val) => handleSearch(val)}
         error={error}
         isLoading={isLoading}
+        searchQuery={searchQuery}
       >
-        {/* Nearby stops section */}
-        {position?.latitude && position?.longitude && (
+        {/* Search Results Section */}
+        {searchResults.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                px: 1,
+                py: 1.5,
+                mb: 1,
+              }}
+            >
+              <DirectionsBusIcon sx={{ fontSize: 16, color: "primary.main" }} />
+              <Typography
+                variant="overline"
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  color: "text.secondary",
+                  lineHeight: 1,
+                }}
+              >
+                Search Results ({searchResults.length})
+              </Typography>
+            </Box>
+
+            {searchResults.map((busStop: BusStopType) => (
+              <Box
+                key={busStop.BusStopCode}
+                onClick={() => handleStopSelect(busStop.BusStopCode)}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  px: 2,
+                  py: 1.5,
+                  mb: 0.5,
+                  borderRadius: "10px",
+                  border: "1px solid",
+                  borderColor: busStopNumber === busStop.BusStopCode ? "primary.main" : "divider",
+                  backgroundColor: busStopNumber === busStop.BusStopCode ? "action.selected" : "background.paper",
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                    backgroundColor: "action.hover",
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: "8px",
+                    backgroundColor: busStopNumber === busStop.BusStopCode ? "primary.main" : "action.selected",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <DirectionsBusIcon sx={{ fontSize: 18, color: busStopNumber === busStop.BusStopCode ? "white" : "primary.main" }} />
+                </Box>
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, lineHeight: 1.3, mb: 0.25 }}
+                    noWrap
+                  >
+                    {busStop.Description}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "text.secondary", display: "block" }}
+                    noWrap
+                  >
+                    Stop {busStop.BusStopCode} · {busStop.RoadName}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        )}
+
+        {/* Divider between search results and nearby stops */}
+        {searchResults.length > 0 && nearbyStops.length > 0 && (
+          <Divider sx={{ my: 1.5 }} />
+        )}
+
+        {/* Nearby stops section - only show if not actively searching */}
+        {searchResults.length === 0 && position?.latitude && position?.longitude && (
           <Box sx={{ mb: 2 }}>
             <Box
               sx={{
@@ -99,7 +232,7 @@ function BusTab() {
             {nearbyStops?.map((busStop: BusStopType) => (
               <Box
                 key={busStop.BusStopCode}
-                onClick={() => setBusStopNumber(busStop.BusStopCode)}
+                onClick={() => handleStopSelect(busStop.BusStopCode)}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -109,8 +242,8 @@ function BusTab() {
                   mb: 0.5,
                   borderRadius: "10px",
                   border: "1px solid",
-                  borderColor: "divider",
-                  backgroundColor: "background.paper",
+                  borderColor: busStopNumber === busStop.BusStopCode ? "primary.main" : "divider",
+                  backgroundColor: busStopNumber === busStop.BusStopCode ? "action.selected" : "background.paper",
                   cursor: "pointer",
                   transition: "all 0.15s ease",
                   "&:hover": {
@@ -150,7 +283,7 @@ function BusTab() {
                   </Typography>
                 </Box>
                 <Chip
-                  label={`${Math.round(busStop.distance * 1000)}m`}
+                  label={`${Math.round((busStop?.distance ?? 0) * 1000)}m`}
                   size="small"
                   sx={{
                     height: 22,
@@ -166,12 +299,12 @@ function BusTab() {
           </Box>
         )}
 
-        {/* Divider between nearby and search results */}
-        {position?.latitude && position?.longitude && busStopNumber && (
+        {/* Divider between stops and services */}
+        {busStopNumber && services && services.length > 0 && (
           <Divider sx={{ my: 1.5 }} />
         )}
 
-        {/* Section header for searched stop */}
+        {/* Section header for selected stop's services */}
         {busStopNumber && services && services.length > 0 && (
           <Box
             sx={{

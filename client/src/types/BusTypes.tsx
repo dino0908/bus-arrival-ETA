@@ -22,7 +22,7 @@ export interface Service {
 }
 
 export interface BusStopType {
-  distance: number
+  distance?: number
   BusStopCode: string
   RoadName: string
   Description: string

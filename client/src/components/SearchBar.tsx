@@ -1,26 +1,30 @@
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, CircularProgress } from "@mui/material";
-import { useState } from "react";
 
 function SearchBar({
   placeholder,
   onSearch,
   isLoading,
+  value
 }: {
   placeholder: string;
   onSearch: (value: string) => void;
   isLoading?: boolean;
+  value?: string
 }) {
-  const [value, setValue] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == "Enter" && !isLoading) {
+    if (e.key == "Enter" && !isLoading && value) {
       onSearch(value)
     }
   }
-  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onSearch(newValue); // Live search as user types
+  };
+
   return (
     <Paper
       variant="outlined"
@@ -38,24 +42,9 @@ function SearchBar({
         placeholder={placeholder}
         sx={{ flex: 1, fontSize: 13 }}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <Button
-        variant="contained"
-        disableElevation
-        onClick={() => onSearch(value)}
-        startIcon={<SearchIcon />}
-        disabled={isLoading}
-        sx={{
-          textTransform: "none",
-          borderRadius: "8px",
-          fontWeight: 600,
-          px: 3,
-        }}
-      >
-        {isLoading ? <CircularProgress size={20} color="inherit" /> : "Search"}
-      </Button>
     </Paper>
   );
 }

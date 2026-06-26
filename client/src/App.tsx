@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
-import TrafficTab from "./tabs/TrafficTab";
-import CarparkTab from "./tabs/CarparkTab";
+// import TrafficTab from "./tabs/TrafficTab";
+// import CarparkTab from "./tabs/CarparkTab";
 import BusTab from "./tabs/BusTab";
 import { useState } from "react";
 import Navbar from "./components/Navbar";
@@ -28,8 +28,8 @@ export default function App() {
         }}
       >
         {tab === "bus" && <BusTab />}
-        {tab === "carpark" && <CarparkTab />}
-        {tab === "traffic" && <TrafficTab />}
+        {/* {tab === "carpark" && <CarparkTab />}
+        {tab === "traffic" && <TrafficTab />} */}
       </Box>
     </Box>
   );

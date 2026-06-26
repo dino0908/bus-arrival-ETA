@@ -10,6 +10,7 @@ interface LeftPanelProps {
   onSearch: (value: string) => void;
   error?: Error | null;
   isLoading?: boolean;
+  searchQuery?: string
 }
 function LeftPanel({
   title,
@@ -18,11 +19,12 @@ function LeftPanel({
   onSearch,
   error,
   isLoading,
+  searchQuery
 }: LeftPanelProps) {
   return (
     <Box
       sx={{
-        width: "45%",
+        width: "55%",
         minWidth: 0,
         flexShrink: 0,
         borderRight: "1px solid",
@@ -58,6 +60,7 @@ function LeftPanel({
           placeholder={searchPlaceholder}
           onSearch={onSearch}
           isLoading={isLoading}
+          value={searchQuery}
         />
         {error && (
           <Box
