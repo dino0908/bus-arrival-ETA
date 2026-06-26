@@ -31,6 +31,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Required for cloud deployment (Render, Railway, etc.) where a reverse proxy sits in front. Allows the rate limiter to see the real user's IP instead of the cloud provider's IP.
+app.set('trust proxy', 1); 
+
 app.use("/api", routes);
 
 app.get("/", (req, res) => {
