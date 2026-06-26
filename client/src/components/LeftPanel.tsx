@@ -24,7 +24,7 @@ function LeftPanel({
   return (
     <Box
       sx={{
-        width: "45%",
+        width: "55%",
         minWidth: 0,
         flexShrink: 0,
         borderRight: "1px solid",
