@@ -11,7 +11,7 @@ dotenv.config(); // Load environment variables from .env file
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-const redisClient = createClient({
+export const redisClient = createClient({
     url: process.env.REDIS_URL || 'redis://localhost:6379' // redis in docker container
 });
 
